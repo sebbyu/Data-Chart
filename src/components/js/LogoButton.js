@@ -17,7 +17,7 @@ export default function Logo(props) {
     <span className="component-logo">
       <div 
         className={logoMap.get(props.name)}
-        onClick={handleClick}></div>
+        onClick={handleClick} id="logo"></div>
     </span>
   )
 }

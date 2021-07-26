@@ -1,1 +1,10 @@
-
+.component-logo {
+  #logo {
+    cursor: pointer;
+    transition: 0.2s ease;
+    padding: 3px;
+    &:hover {
+      transform: scale(1.2);
+    }
+  } 
+}

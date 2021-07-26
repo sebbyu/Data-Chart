@@ -13,8 +13,8 @@ export default function TableBody(props) {
   var currentData = props.data;
   var currentHead = tableHeadMap.get(currentPage);
 
-  const handleClick = () => {
-    console.log("a")
+  const handleClick = (logoButton) => {
+    console.log(logoButton)
   }
 
 
