@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "first_name": "Anna",
+    "last_name": "Anderson",
+    "expense": {
+      "category": "Food",
+      "cost": 28,
+      "date": "05-22-2021"
+    },
+    "budget": 400
+  },
+  {
+    "id": 2,
+    "first_name": "Bob",
+    "last_name": "Brown",
+    "expense": {
+      "category": "Travel",
+      "cost": 340,
+      "date": "06-19-2021"
+    },
+    "budget": 1800
+  },
+  {
+    "id": 3,
+    "first_name": "Cindy",
+    "last_name": "Cook",
+    "expense": {
+      "category": "Health",
+      "cost": 1000,
+      "date": "02-29-2020"
+    },
+    "budget": 20
+  },
+  {
+    "id": 4,
+    "first_name": "Dylan",
+    "last_name": "Davis",
+    "expense": {
+      "category": "Supplies",
+      "cost": 200,
+      "date": "04-20-2020"
+    },
+    "budget": 5000
+  },
+  {
+    "id": 5,
+    "first_name": "Emma",
+    "last_name": "Erickson",
+    "expense": {
+      "category": "Food",
+      "cost": 40,
+      "date": "07-23-2021"
+    },
+    "budget": 300
+  }
+]
