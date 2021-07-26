@@ -1,6 +1,6 @@
 import './../scss/Navbar.scss';
 // Component
-import Logo from './Logo';
+import LogoButton from './LogoButton';
 import Button from './Button';
 // Hooks
 
@@ -12,7 +12,7 @@ export default function Navbar (props) {
 
   return (
     <div className="component-navbar">
-      <Logo name={props.currentPage}/>
+      <LogoButton name={props.currentPage}/>
       <div>
         <Button name="USERS" clickHandler={handleClick}/>
         <Button name="EXPENSE" clickHandler={handleClick}/>

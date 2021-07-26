@@ -1,8 +1,8 @@
 [
   {
     "id": 1,
-    "first_name": "Anna",
-    "last_name": "Anderson",
+    "first name": "Anna",
+    "last name": "Anderson",
     "expense": {
       "category": "Food",
       "cost": 28,
@@ -12,8 +12,8 @@
   },
   {
     "id": 2,
-    "first_name": "Bob",
-    "last_name": "Brown",
+    "first name": "Bob",
+    "last name": "Brown",
     "expense": {
       "category": "Travel",
       "cost": 340,
@@ -23,8 +23,8 @@
   },
   {
     "id": 3,
-    "first_name": "Cindy",
-    "last_name": "Cook",
+    "first name": "Cindy",
+    "last name": "Cook",
     "expense": {
       "category": "Health",
       "cost": 1000,
@@ -34,8 +34,8 @@
   },
   {
     "id": 4,
-    "first_name": "Dylan",
-    "last_name": "Davis",
+    "first name": "Dylan",
+    "last name": "Davis",
     "expense": {
       "category": "Supplies",
       "cost": 200,
@@ -45,8 +45,8 @@
   },
   {
     "id": 5,
-    "first_name": "Emma",
-    "last_name": "Erickson",
+    "first name": "Emma",
+    "last name": "Erickson",
     "expense": {
       "category": "Food",
       "cost": 40,

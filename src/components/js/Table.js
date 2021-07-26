@@ -14,11 +14,12 @@ export default function Table(props) {
 
   return (
     <div className="component-table">
-      <table id="table">
+      <table id="table" border='1px'>
         <TableHead
-          currentPage={props.currentPage}/>
-        <tbody>
-        </tbody>
+          currentHead={props.currentPage}/>
+        <TableBody
+          currentBody={props.currentPage}
+          data={data}/>
       </table>
     </div>
   )
