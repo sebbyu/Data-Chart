@@ -12,7 +12,7 @@ export default function Navbar (props) {
 
   return (
     <div className="component-navbar">
-      <LogoButton name={props.currentPage}/>
+      <LogoButton name={props.currentPage} clickHandler={handleClick}/>
       <div>
         <Button name="USERS" clickHandler={handleClick}/>
         <Button name="EXPENSE" clickHandler={handleClick}/>

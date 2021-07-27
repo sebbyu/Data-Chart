@@ -13,24 +13,32 @@ export default function TableBody(props) {
   var currentData = props.data;
   var currentHead = tableHeadMap.get(currentPage);
 
-  const handleClick = (logoButton) => {
-    console.log(logoButton)
+
+  const handleClick = (logoButton, datum) => {
+    props.clickHandler(logoButton, datum);
   }
 
+  const createUpdatingButtons = (datum) => {
+    if (currentPage !== "COMPANY EXPENSES") {
+      return <td>
+                <LogoButton 
+                  name="EDIT"
+                  clickHandler={handleClick}
+                  datum={datum} />
+                <LogoButton 
+                  name="DELETE"
+                  clickHandler={handleClick}
+                  datum={datum} />
+              </td>
+    }
+  }
 
   const createTable = () => {
     return (
       currentData.map((datum, i) => {
         return (
           <tr key={i}>
-            <td>
-              <LogoButton 
-                name="EDIT"
-                clickHandler={handleClick}/>
-              <LogoButton 
-                name="DELETE"
-                clickHandler={handleClick}/>
-            </td>
+            {createUpdatingButtons(datum)}
             {currentHead.map((head, j) => {
               head = head.toLowerCase();
               var elem = datum[head] === undefined ? 
