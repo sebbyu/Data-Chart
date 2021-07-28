@@ -6,19 +6,21 @@ import {useState} from 'react';
 // Component
 import TableHead from './TableHead';
 import TableBody from './TableBody';
-import Button from './Button';
+import LogoButton from './LogoButton';
 
 
 export default function Table(props) {
 
   const [data, setData] = useState(jsonData);
   const [adding, setAdding] = useState(false);
+  const [editing, setEditing] = useState(-1);
 
 
   const getCurrentDate = () => {
     var d = new Date().toISOString().split('T')[0];
     return d;
   }
+
   const initialForm = {
     "id": data.length+1,
     "first name": "",
@@ -31,28 +33,7 @@ export default function Table(props) {
     "budget": 400
   }
 
-  
-
   const [newData, setNewData] = useState(initialForm);
-
-  const addForm = () => {
-    if (adding) {
-      return (
-        <div>
-          <form>
-            <input 
-              type="text" name="first name" 
-              value={newData['first name']}
-              onChange={handleNewUser}/>
-            <input type="text" name="last name" 
-              value={newData['last name']}
-              onChange={handleNewUser}/>
-          </form>
-          <Button name="Insert" clickHandler={addData}/>
-        </div>
-      )
-    } 
-  }
 
   const handleNewUser = (e) => {
     const {name, value} = e.target;
@@ -70,8 +51,57 @@ export default function Table(props) {
   }
 
   const handleClick = (logoButton, datum) => {
-    console.log(logoButton);
-    console.log(datum);
+    logoButton === 'DELETE' ? 
+    setData(data.filter(x => x !== datum)) :
+    editData(datum);
+  }
+
+  const editData = (datum) => {
+    var num = editing === datum['id'] ? 
+    -1 : datum['id'];
+    setEditing(num);
+  }
+
+  const handleUpdateData = (newD) => {
+    const newData = data.map(datum => {
+      if (datum['id'] === newD['id']) {
+        return newD;
+      } else {
+        return datum;
+      }
+    })
+    setData(newData);
+  }
+
+  const createForm = () => {
+    return (
+      <div style={{display: props.currentPage === "COMPANY EXPENSES" ? 
+      'none' : 'block'}}>
+        <LogoButton
+          name={adding ? "CANCEL" : "PLUS"} 
+          clickHandler={() => setAdding(!adding)}/>
+        {addForm()}
+      </div>
+    )
+  }
+
+  const addForm = () => {
+    if (adding) {
+      return (
+        <div>
+          <form>
+            <input 
+              type="text" name="first name" 
+              value={newData['first name']}
+              onChange={handleNewUser}/>
+            <input type="text" name="last name" 
+              value={newData['last name']}
+              onChange={handleNewUser}/>
+            <LogoButton name="INSERT" clickHandler={addData}/>
+          </form>
+        </div>
+      )
+    } 
   }
 
   return (
@@ -82,12 +112,11 @@ export default function Table(props) {
         <TableBody
           currentBody={props.currentPage}
           data={data}
-          clickHandler={handleClick}/>
+          clickHandler={handleClick}
+          editingDatum={editing}
+          updateData={handleUpdateData}/>
       </table>
-      <Button 
-        name={adding ? "Cancel" : "Add+"} 
-        clickHandler={() => setAdding(!adding)}/>
-      {addForm()}
+      {/* {createForm()} */}
     </div>
   )
 }

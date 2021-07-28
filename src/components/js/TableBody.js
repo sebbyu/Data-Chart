@@ -5,9 +5,24 @@ import {tableHeadMap} from './../../helpers/pageMap';
 import {resolveUndefined} from './../../helpers/helperFunc';
 // Component
 import LogoButton from './LogoButton';
+import {useState} from 'react';
 
 
 export default function TableBody(props) {
+
+  var initialForm = {
+    "id": 0,
+    "first name": "",
+    "last name": "",
+    "expense": {
+      "category": "",
+      "cost": 0,
+      "date": "",
+    },
+    "budget": 0
+  }
+
+  const [e, setE] = useState(initialForm);
 
   var currentPage = props.currentBody;
   var currentData = props.data;
@@ -33,6 +48,15 @@ export default function TableBody(props) {
     }
   }
 
+  const handleChange = (event, datum) => {
+    const {name, value} = event.target;
+    setE({
+      ...datum,
+      [name]: value
+    })
+    props.updateData(e);
+  }
+
   const createTable = () => {
     return (
       currentData.map((datum, i) => {
@@ -45,7 +69,15 @@ export default function TableBody(props) {
               resolveUndefined(currentPage, currentData, datum, head) : 
               datum[head];
               return (
-                <td key={j}>{elem}</td>
+                <td key={j}>
+                  {datum['id'] === props.editingDatum 
+                  && datum[head] !== undefined?
+                  (<input type='text' name={head.toLowerCase()} 
+                    value={e[head.toLowerCase()]}
+                    placeholder={datum[head.toLowerCase()]}
+                    onChange={(event) => handleChange(event, datum)}/>):
+                  (elem)}
+                </td>
               )
             })}
           </tr>
