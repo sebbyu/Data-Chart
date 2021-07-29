@@ -12,7 +12,7 @@ function getTotal(data, category, element) {
   return total;
 }
 
-function resolveUndefined(currentPage, currentData, datum, head) {
+function resolveUndefinedElem(currentPage, currentData, datum, head) {
   if (head === "total expenses") {
     return currentPage === 'USERS' ? getTotal(currentData, "user", getFullName(datum))
     : getTotal(currentData, 'category', datum['expense']['category']);
@@ -25,4 +25,4 @@ function resolveUndefined(currentPage, currentData, datum, head) {
 
 export {getFullName};
 export {getTotal};
-export {resolveUndefined};
+export {resolveUndefinedElem};

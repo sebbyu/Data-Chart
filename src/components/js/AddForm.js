@@ -1,20 +1,40 @@
 import './../scss/AddForm.scss';  
 import LogoButton from './LogoButton';
+import {useState} from 'react';
+import {newUserForm} from './../../helpers/pageMap';
 
+export default function AddForm(props) {
 
-export default function AddForm() {
+  const [adding, setAdding] = useState(false);
+  const [newData, setNewData] = useState(newUserForm);
 
-  const handleClick = () => {
-    console.log("Add");
+  const handleLogoClick = name => {
+    setAdding(!adding);
+    name === "INSERT" ? 
+    props.addNewData(newData) :
+    setAdding(!adding);
+    setNewData(newUserForm);
+
+  }
+  
+  const handleInputChange = (event) => {
+    const {name, value} = event.target;
+    setNewData({
+      ...newData,
+      [name]: value
+    })
   }
 
   const createForm = () => {
     return (
-      <div>
+      <div style={{display: props.currentPage === "COMPANY EXPENSES" ?
+        'none' : 'block'}}>
         <LogoButton
-          name="PLUS"
-          clickHandler={handleClick}/>
-        {addForm()}
+          name={adding ? "CANCEL" : "PLUS"}
+          clickHandler={handleLogoClick}/>
+        {adding ? 
+        (addForm()):
+        (<></>)}
       </div>
     )
   }
@@ -23,46 +43,18 @@ export default function AddForm() {
     return (
       <form>
         <input
-          type="text"/>
+          type="text" name="first name"
+          value={newData['first name']}
+          onChange={handleInputChange}/>
         <input
-          type="text"/>
-        <LogoButton name="INSERT" clickHandler={handleClick}/>
+          type="text" name="last name"
+          value={newData['last name']}
+          onChange={handleInputChange}/>
+        <LogoButton name="INSERT" clickHandler={handleLogoClick}/>
       </form>
     )
   }
   
-
-
-  // const createForm = () => {
-  //   return (
-  //     <div style={{display: props.currentPage === "COMPANY EXPENSES" ? 
-  //     'none' : 'block'}}>
-  //       <LogoButton
-  //         name={adding ? "CANCEL" : "PLUS"} 
-  //         clickHandler={() => setAdding(!adding)}/>
-  //       {addForm()}
-  //     </div>
-  //   )
-  // }
-
-  // const addForm = () => {
-  //   if (adding) {
-  //     return (
-  //       <div>
-  //         <form>
-  //           <input 
-  //             type="text" name="first name" 
-  //             value={newData['first name']}
-  //             onChange={handleNewUser}/>
-  //           <input type="text" name="last name" 
-  //             value={newData['last name']}
-  //             onChange={handleNewUser}/>
-  //           <LogoButton name="INSERT" clickHandler={addData}/>
-  //         </form>
-  //       </div>
-  //     )
-  //   } 
-  // }
   return (
     <div className="component-add_form">
       {createForm()}
