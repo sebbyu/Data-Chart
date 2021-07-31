@@ -55,7 +55,8 @@ export default function App() {
       <div className="component-app add_form">
         <AddForm 
           currentPage={page}
-          addNewData={handleAddNewData}/>
+          addNewData={handleAddNewData}
+          currentData={data}/>
       </div>
     </div>
   )

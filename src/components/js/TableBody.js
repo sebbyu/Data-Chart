@@ -1,7 +1,7 @@
 import React from 'react';
 import './../scss/TableBody.scss';
 // helper
-import {tableHeadMap} from './../../helpers/pageMap';
+import {tableHeadMap, categories} from './../../helpers/pageMap';
 import {resolveUndefinedElem, 
 getFullName} from './../../helpers/helperFunc';
 // Component
@@ -44,7 +44,7 @@ export default function TableBody(props) {
     })
     props.currentData.forEach((datum, i) => {
       total.set(getFullName(datum),
-      total.get(getFullName(datum)) + datum['expense']['cost']);
+      total.get(getFullName(datum)) + parseInt(datum['expense']['cost']));
     })
     return (
       [...ids.keys()].map((key, i) => {
@@ -85,7 +85,6 @@ export default function TableBody(props) {
   }
 
   const createCompanyExpensesTable = () => {
-    var categories = ['Food', 'Travel', 'Health', 'Supplies'];
     var map = new Map();
     categories.forEach(cat => {
       map.set(cat, 0);
@@ -93,7 +92,8 @@ export default function TableBody(props) {
     props.currentData.forEach((datum, i) => {
       if (map.has(datum['expense']['category'])) {
         map.set(datum['expense']['category'],
-        map.get(datum['expense']['category'])+datum['expense']['cost']);
+        map.get(datum['expense']['category'])+
+        parseInt(datum['expense']['cost']));
       }
     })
     return (

@@ -22,7 +22,7 @@ tableHeadMap.set(users, ['First Name', 'Last Name', 'Total Expenses']);
 tableHeadMap.set(expense, ['Full Name', 'Category', 'Cost', 'Date']);
 tableHeadMap.set(company_expenses, ['Category', 'Total Expenses']);
 
-var newUserForm = {
+const newUserForm = {
   "id": 0,
   "first name": "",
   "last name": "",
@@ -34,6 +34,9 @@ var newUserForm = {
   "budget": 0
 }
 
+const categories = ['Food', 'Travel', 'Health', 'Supplies'];
+
 export {logoMap};
 export {tableHeadMap};
 export {newUserForm};
+export {categories};
