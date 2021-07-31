@@ -1,6 +1,6 @@
 import './../scss/LogoButton.scss';
 import propTypes from 'prop-types';
-// helper
+// helpers
 import {logoMap} from './../../helpers/pageMap';
 
 export default function Logo(props) {

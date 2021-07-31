@@ -1,8 +1,13 @@
 import './../scss/TableHead.scss';
-// Helper
+import propTypes from 'prop-types';
+// helpers
 import {tableHeadMap} from './../../helpers/pageMap';
 
 export default function TableHead(props) {
+
+  TableHead.propTypes = {
+    currentHead: propTypes.string,
+  }
 
   const createExtraColumn = () => {
     if (props.currentHead !== "COMPANY EXPENSES") {

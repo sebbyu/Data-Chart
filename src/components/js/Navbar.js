@@ -1,8 +1,13 @@
 import './../scss/Navbar.scss';
+import propTypes from 'prop-types';
 // Component
 import LogoButton from './LogoButton';
 
-export default function Navbar (props) {
+export default function Navbar(props) {
+
+  Navbar.propTypes = {
+    clickHandler: propTypes.func,
+  }
 
   const handleClick = currentPage => {
     props.clickHandler(currentPage);

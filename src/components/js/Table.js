@@ -1,10 +1,17 @@
 import './../scss/Table.scss';
+import propTypes from 'prop-types';
 // Component
 import TableHead from './TableHead';
 import TableBody from './TableBody';
 
 
 export default function Table(props) {
+
+  Table.propTypes = {
+    currentPage: propTypes.string,
+    currentData: propTypes.object,
+    clickHandler: propTypes.func,
+  }
 
   const handleClick = (name, elem) => {
     props.clickHandler(name, elem);

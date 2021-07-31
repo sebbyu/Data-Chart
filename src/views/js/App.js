@@ -1,9 +1,9 @@
 import './../scss/App.scss';
-// Component
+// components
 import Navbar from './../../components/js/Navbar';
 import Table from './../../components/js/Table';
 import AddForm from './../../components/js/AddForm';
-// Hooks
+// hooks
 import {useState} from 'react';
 // assets
 import jsonData from '../../assets/dummy_data.json';
@@ -31,8 +31,7 @@ export default function App() {
     newDatum.id = data.length+1;
     newDatum['first name'] = newDatum['first name'].trim();
     newDatum['last name'] = newDatum['last name'].trim();
-    let newData = [...data];
-    newData.push(newDatum);
+    let newData = [...data, newDatum];
     if (page === "USERS") {
       if (!userMap.has(getFullName(newDatum))) {
         userMap.set(getFullName(newDatum), 1);
@@ -53,7 +52,8 @@ export default function App() {
     if (name === "DELETE") {
       if (page === "USERS") {
         newData = data.filter(x => getFullName(x) !== elem);
-      } else {
+      } 
+      if (page === "EXPENSE") {
         newData = data.filter(x => x.id !== elem);
       }
       setData(newData);

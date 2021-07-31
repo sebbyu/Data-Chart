@@ -1,14 +1,23 @@
-import React from 'react';
 import './../scss/TableBody.scss';
-// helper
-import {tableHeadMap, categories} from './../../helpers/pageMap';
-import {resolveUndefinedElem, 
-getFullName} from './../../helpers/helperFunc';
-// Component
+import propTypes from 'prop-types';
+// helpers
+import {tableHeadMap} from './../../helpers/pageMap';
+import {
+  resolveUndefinedElem, 
+  getFullName
+} from './../../helpers/helperFunc';
+// components
 import LogoButton from './LogoButton';
 
 
 export default function TableBody(props) {
+
+   TableBody.propTypes = {
+    currentPage: propTypes.string,
+    currentData: propTypes.object,
+    clickHandler: propTypes.func,
+  }
+
 
   var currentHead = tableHeadMap.get(props.currentPage);
 
@@ -37,14 +46,11 @@ export default function TableBody(props) {
     var total = new Map();
     var ids = new Map();
     props.currentData.forEach((datum, i) => {
-      if (!total.has(getFullName(datum))) {
-        total.set(getFullName(datum), 0);
-        ids.set(getFullName(datum), datum['id']);
-      }
-    })
-    props.currentData.forEach((datum, i) => {
       total.set(getFullName(datum),
-      total.get(getFullName(datum)) + parseInt(datum['expense']['cost']));
+      total.has(getFullName(datum)) ? 
+      total.get(getFullName(datum)) + parseInt(datum['expense']['cost']) :
+      parseInt(datum['expense']['cost']));
+      ids.set(getFullName(datum), datum['id']);
     })
     return (
       [...ids.keys()].map((key, i) => {
@@ -86,15 +92,12 @@ export default function TableBody(props) {
 
   const createCompanyExpensesTable = () => {
     var map = new Map();
-    categories.forEach(cat => {
-      map.set(cat, 0);
-    })
     props.currentData.forEach((datum, i) => {
-      if (map.has(datum['expense']['category'])) {
-        map.set(datum['expense']['category'],
-        map.get(datum['expense']['category'])+
-        parseInt(datum['expense']['cost']));
-      }
+      map.set(datum['expense']['category'], 
+      map.has(datum['expense']['category']) ? 
+      map.get(datum['expense']['category']) + parseInt(datum['expense']['cost']) :
+      parseInt(datum['expense']['cost']))
+      
     })
     return (
       [...map.entries()].map((entry, i) => {

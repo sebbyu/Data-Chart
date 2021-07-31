@@ -16,11 +16,11 @@ function resolveUndefinedElem(currentPage, currentData, datum, head) {
   if (head === "total expenses") {
     return currentPage === 'USERS' ? getTotal(currentData, "user", getFullName(datum))
     : getTotal(currentData, 'category', datum['expense']['category']);
-  } if (head === "full name") {
+  } 
+  if (head === "full name") {
     return getFullName(datum);
-  } else {
-    return datum['expense'][head];
-  }
+  } 
+  return datum['expense'][head];
 }
 
 export {getFullName};

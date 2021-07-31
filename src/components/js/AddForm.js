@@ -1,10 +1,20 @@
 import './../scss/AddForm.scss';  
+import propTypes from 'prop-types';
+// components
 import LogoButton from './LogoButton';
+// hooks
 import {useState} from 'react';
+// helpers
 import {newUserForm, categories} from './../../helpers/pageMap';
 import {getFullName} from './../../helpers/helperFunc';
 
 export default function AddForm(props) {
+
+  AddForm.propTypes = {
+    currentPage: propTypes.string,
+    addNewData: propTypes.func,
+    currentData: propTypes.object,
+  }
 
   const [adding, setAdding] = useState(false);
   const [newData, setNewData] = useState(newUserForm);
@@ -40,49 +50,28 @@ export default function AddForm(props) {
   
   const handleInputChange = (event) => {
     const {name, value} = event.target;
+    if (props.currentPage === "USERS") {
+      setNewData({
+        ...newData,
+        [name]: value
+      })
+    }
     if (props.currentPage === "EXPENSE") {
-      if (name === "full name") {
-        setNewData({
-          ...newData,
-          'first name': value.split(" ")[0],
-          'last name': value.split(" ")[1]
-        })
-      } else {
+      if (name !== 'full name') {
         var temp = JSON.parse(JSON.stringify(newData));
         temp['expense'][name] = value;
         setNewData({
           ...temp
         })
       }
-    } else {
-      setNewData({
-        ...newData,
-        [name]: value
-      })
-    }
-    
-    
-  }
-
-  const createForm = () => {
-    return (
-      <div style={{display: props.currentPage === "COMPANY EXPENSES" ?
-        'none' : 'block'}}>
-        <LogoButton
-          name={adding ? "CANCEL" : "PLUS"}
-          clickHandler={handleLogoClick}/>
-        {adding ? 
-        (addForm()):
-        (<></>)}
-      </div>
-    )
-  }
-
-  const addForm = () => {
-    if (props.currentPage === "USERS") {
-      return addUserForm();
-    }
-    return addExpenseForm();
+      if (name === "full name") {
+        setNewData({
+          ...newData,
+          'first name': value.split(" ")[0],
+          'last name': value.split(" ")[1]
+        })
+      }
+    } 
   }
 
   const addUserForm = () => {
@@ -133,6 +122,25 @@ export default function AddForm(props) {
           onChange={handleInputChange}/>
         <LogoButton name="INSERT" clickHandler={handleLogoClick}/>
       </form>
+    )
+  }
+
+  const addForm = () => {
+    if (props.currentPage === "USERS") {
+      return addUserForm();
+    }
+    return addExpenseForm();
+  }
+
+  const createForm = () => {
+    return (
+      <div style={{display: props.currentPage === "COMPANY EXPENSES" ?
+        'none' : 'block'}}>
+        <LogoButton
+          name={adding ? "CANCEL" : "PLUS"}
+          clickHandler={handleLogoClick}/>
+        {adding && addForm()}
+      </div>
     )
   }
   
