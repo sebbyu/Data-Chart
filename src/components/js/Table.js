@@ -6,6 +6,10 @@ import TableBody from './TableBody';
 
 export default function Table(props) {
 
+  const handleClick = (name, elem) => {
+    props.clickHandler(name, elem);
+  }
+
   return (
     <div className="component-table">
       <table id="table" border='1px' width="100%">
@@ -13,7 +17,8 @@ export default function Table(props) {
           currentHead={props.currentPage}/>
         <TableBody 
           currentPage={props.currentPage}
-          currentData={props.currentData}/>
+          currentData={props.currentData}
+          clickHandler={handleClick}/>
       </table>
     </div>
   )

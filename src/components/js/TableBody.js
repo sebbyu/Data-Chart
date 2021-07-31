@@ -12,46 +12,48 @@ export default function TableBody(props) {
 
   var currentHead = tableHeadMap.get(props.currentPage);
 
-  const handleClick = (name, fullName) => {
-    console.log(fullName);
+  const handleClick = (name, elem) => {
+    props.clickHandler(name, elem);
   }
 
-  const createUpdatingButtons = fullName => {
+  const createUpdatingButtons = elem => {
     if (props.currentPage !== "COMPANY EXPENSES") {
       return (
         <td>
           <LogoButton
             name="EDIT"
             clickHandler={handleClick}
-            datumFullName={fullName}/>
+            elem={elem}/>
           <LogoButton
             name="DELETE"
             clickHandler={handleClick}
-            datumFullName={fullName}/>
+            elem={elem}/>
         </td>
       )
     }
   }
 
   const createUserTable = () => {
-    var map = new Map();
+    var total = new Map();
+    var ids = new Map();
     props.currentData.forEach((datum, i) => {
-      if (!map.has(getFullName(datum))) {
-        map.set(getFullName(datum), 0);
+      if (!total.has(getFullName(datum))) {
+        total.set(getFullName(datum), 0);
+        ids.set(getFullName(datum), datum['id']);
       }
     })
     props.currentData.forEach((datum, i) => {
-      map.set(getFullName(datum), 
-      map.get(getFullName(datum)) + datum['expense']['cost'])
+      total.set(getFullName(datum),
+      total.get(getFullName(datum)) + datum['expense']['cost']);
     })
     return (
-      [...map.entries()].map((entry, i) => {
+      [...ids.keys()].map((key, i) => {
         return (
           <tr key={i}>
-            {createUpdatingButtons(entry[0])}
-            <td>{entry[0].split(' ')[0]}</td>
-            <td>{entry[0].split(' ')[1]}</td>
-            <td>{entry[1]}</td>
+            {createUpdatingButtons(key)}
+            <td>{key.split(' ')[0]}</td>
+            <td>{key.split(' ')[1]}</td>
+            <td>{total.get(key)}</td>
           </tr>
         )
       })
@@ -63,7 +65,7 @@ export default function TableBody(props) {
       props.currentData.map((datum, i) => {
         return (
           <tr key={i}>
-            {createUpdatingButtons(getFullName(datum))}
+            {createUpdatingButtons(datum['id'])}
             {currentHead.map((head, j) => {
               head = head.toLowerCase();
               var elem = datum[head] === undefined ?

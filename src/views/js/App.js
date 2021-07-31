@@ -7,6 +7,7 @@ import AddForm from './../../components/js/AddForm';
 import {useState} from 'react';
 // assets
 import jsonData from '../../assets/dummy_data.json';
+import {getFullName} from './../../helpers/helperFunc';
 
 
 export default function App() {
@@ -19,8 +20,24 @@ export default function App() {
   };
 
   const handleAddNewData = newDatum => {
+    newDatum.id = data.length+1;
+    newDatum['first name'] = newDatum['first name'].trim();
+    newDatum['last name'] = newDatum['last name'].trim();
     let newData = [...data, newDatum];
     setData(newData);
+  }
+
+  const handleUpdateData = (name, elem) => {
+    var newData;
+    if (name === "DELETE") {
+      if (page === "USERS") {
+        newData = data.filter(x => getFullName(x) !== elem);
+      } else {
+        newData = data.filter(x => x.id !== elem);
+      }
+      setData(newData);
+    }
+    console.log(name, elem);
   }
 
   return (
@@ -32,7 +49,8 @@ export default function App() {
       <div className="component-app table">
         <Table 
           currentPage={page}
-          currentData={data}/>
+          currentData={data}
+          clickHandler={handleUpdateData}/>
       </div>
       <div className="component-app add_form">
         <AddForm 
