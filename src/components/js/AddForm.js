@@ -13,7 +13,7 @@ export default function AddForm(props) {
   AddForm.propTypes = {
     currentPage: propTypes.string,
     addNewData: propTypes.func,
-    currentData: propTypes.object,
+    currentData: propTypes.array,
   }
 
   const [adding, setAdding] = useState(false);

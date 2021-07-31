@@ -9,7 +9,7 @@ export default function Table(props) {
 
   Table.propTypes = {
     currentPage: propTypes.string,
-    currentData: propTypes.object,
+    currentData: propTypes.array,
     clickHandler: propTypes.func,
   }
 

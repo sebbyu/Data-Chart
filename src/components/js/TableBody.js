@@ -14,7 +14,7 @@ export default function TableBody(props) {
 
    TableBody.propTypes = {
     currentPage: propTypes.string,
-    currentData: propTypes.object,
+    currentData: propTypes.array,
     clickHandler: propTypes.func,
   }
 
