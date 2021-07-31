@@ -29,7 +29,7 @@ var newUserForm = {
   "expense": {
     "category": "",
     "cost": 0,
-    "date": "",
+    "date": new Date().toLocaleString().split(/\D/).slice(0,3).map(num=>num.padStart(2,"0")).join("-"),
   },
   "budget": 0
 }

@@ -1,5 +1,6 @@
 import './../scss/AddForm.scss';  
 import LogoButton from './LogoButton';
+import AlertMessage from './AlertMessage';
 import {useState} from 'react';
 import {newUserForm} from './../../helpers/pageMap';
 
@@ -9,12 +10,16 @@ export default function AddForm(props) {
   const [newData, setNewData] = useState(newUserForm);
 
   const handleLogoClick = name => {
+  
     setAdding(!adding);
-    name === "INSERT" ? 
-    props.addNewData(newData) :
-    setAdding(!adding);
-    setNewData(newUserForm);
-
+    if (name === "INSERT") {
+      if (newData['first name'] !== '' && newData['last name'] !== '') {
+        props.addNewData(newData);
+        setNewData(newUserForm);
+      } else {
+        setAdding(true);
+      }
+    }
   }
   
   const handleInputChange = (event) => {
@@ -58,6 +63,8 @@ export default function AddForm(props) {
   return (
     <div className="component-add_form">
       {createForm()}
+      <AlertMessage
+        message="insert"/>
     </div>
   )
 

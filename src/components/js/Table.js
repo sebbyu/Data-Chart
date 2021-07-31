@@ -6,6 +6,20 @@ import TableBody from './TableBody';
 
 export default function Table(props) {
 
+  return (
+    <div className="component-table">
+      <table id="table" border='1px' width="100%">
+        <TableHead
+          currentHead={props.currentPage}/>
+        <TableBody 
+          currentPage={props.currentPage}
+          currentData={props.currentData}/>
+      </table>
+    </div>
+  )
+}
+
+
   // const [editing, setEditing] = useState(-1);
 
   // const handleClick = (logoButton, datum) => {
@@ -30,16 +44,3 @@ export default function Table(props) {
   //   })
   //   setData(newData);
   // }
-
-  return (
-    <div className="component-table">
-      <table id="table" border='1px' width="100%">
-        <TableHead
-          currentHead={props.currentPage}/>
-        <TableBody 
-          currentPage={props.currentPage}
-          currentData={props.currentData}/>
-      </table>
-    </div>
-  )
-}
