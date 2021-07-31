@@ -14,17 +14,38 @@ export default function App() {
 
   const [page, setPage] = useState('USERS');
   const [data, setData] = useState(jsonData);
+  const [userMap, setUserMap] = useState(() => {
+    var map = new Map();
+    data.forEach(x => {
+      map.set(getFullName(x), 1);
+    })
+    return map;
+  });
 
   const switchTab = currentPage => {
     setPage(currentPage);
   };
 
   const handleAddNewData = newDatum => {
+    let pass = false;
     newDatum.id = data.length+1;
     newDatum['first name'] = newDatum['first name'].trim();
     newDatum['last name'] = newDatum['last name'].trim();
-    let newData = [...data, newDatum];
-    setData(newData);
+    let newData = [...data];
+    newData.push(newDatum);
+    if (page === "USERS") {
+      if (!userMap.has(getFullName(newDatum))) {
+        userMap.set(getFullName(newDatum), 1);
+        setUserMap(userMap);
+        pass = true;
+      }
+    }
+    if (page === "EXPENSE") {
+      pass = true;
+    }
+    if (pass) {
+      setData(newData);
+    }
   }
 
   const handleUpdateData = (name, elem) => {

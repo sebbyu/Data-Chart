@@ -10,14 +10,15 @@ export default function AddForm(props) {
   const [newData, setNewData] = useState(newUserForm);
 
   const handleLogoClick = name => {
-    setAdding(!adding);
+    if (name !== "INSERT") {
+      setAdding(!adding);
+      setNewData(newUserForm);
+    } 
+    let pass = false;
     if (name === "INSERT") {
       if (props.currentPage === "USERS") {
         if (newData['first name'] !== '' && newData['last name'] !== '') {
-          props.addNewData(newData);
-          setNewData(newUserForm);
-        } else {
-          setAdding(true);
+          pass = true;
         }
       }
       if (props.currentPage === "EXPENSE") {
@@ -25,13 +26,16 @@ export default function AddForm(props) {
         newData['expense']['date'] !== '' &&
         newData['expense']['category'] !== '' &&
         newData['first name'] !== '' && newData['last name'] !== '') {
-          props.addNewData(newData);
-          setNewData(newUserForm);
-        } else {
-          setAdding(true);
+          pass = true;
         }
       }
     }
+    if (pass) {
+      props.addNewData(newData);
+      setAdding(!adding);
+      setNewData(newUserForm);
+    }
+    
   }
   
   const handleInputChange = (event) => {
@@ -44,7 +48,7 @@ export default function AddForm(props) {
           'last name': value.split(" ")[1]
         })
       } else {
-        var temp = {...newData};
+        var temp = JSON.parse(JSON.stringify(newData));
         temp['expense'][name] = value;
         setNewData({
           ...temp
