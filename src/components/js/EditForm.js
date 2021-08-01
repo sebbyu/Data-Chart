@@ -11,13 +11,14 @@ export default function EditForm(props) {
 
   EditForm.propTypes = {
     currentPage: propTypes.string,
+    updatedDatumHandler: propTypes.func,
   }
 
   useEffect(() => {
-    const aaa = () => {
-      props.test(newDatum);
+    const sendingToParent = () => {
+      props.updatedDatumHandler(newDatum);
     }
-    aaa();
+    sendingToParent();
   }, [props, newDatum]);
 
 
@@ -27,7 +28,6 @@ export default function EditForm(props) {
       ...newDatum,
       [name]: value
     })
-    props.test(newDatum);
   }
 
   if (props.currentPage === "USERS") {
@@ -42,7 +42,6 @@ export default function EditForm(props) {
           <input type="text" name="last name"
             value={newDatum['last name']}
             onChange={handleChange}/>
-          {/* <button onClick={ttest}>asdfsdf</button> */}
         </td>
       </>
       

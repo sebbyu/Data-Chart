@@ -24,6 +24,7 @@ export default function TableBody(props) {
     currentPage: propTypes.string,
     currentData: propTypes.array,
     clickHandler: propTypes.func,
+    updatedDatumHandler: propTypes.func,
   }
 
   var currentHead = tableHeadMap.get(props.currentPage);
@@ -66,8 +67,8 @@ export default function TableBody(props) {
     }
   }
 
-  const test = newDatum => {
-    props.test(newDatum);
+  const handleUpdatedDatum = newDatum => {
+    props.updatedDatumHandler(newDatum);
   }
 
   const createUserTable = () => {
@@ -88,7 +89,7 @@ export default function TableBody(props) {
             {
               key === editingElement ? 
               (<EditForm currentPage={props.currentPage}
-                test={test}/>) :
+                updatedDatumHandler={handleUpdatedDatum}/>) :
               (<DatumElement elements={[
                 key.split(' ')[0],key.split(' ')[1],total.get(key)]}/>)
             }

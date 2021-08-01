@@ -7,6 +7,7 @@ export default function Logo(props) {
 
   Logo.propTypes = {
     name: propTypes.string,
+    clickHandler: propTypes.func,
   }
 
   const handleClick = () => {

@@ -11,14 +11,15 @@ export default function Table(props) {
     currentPage: propTypes.string,
     currentData: propTypes.array,
     clickHandler: propTypes.func,
+    updatedDatumHandler: propTypes.func,
   }
 
   const handleClick = (name, elem, datum) => {
     props.clickHandler(name, elem, datum);
   }
 
-  const test = newDatum => {
-    props.test(newDatum)
+  const handleUpdatedDatum = newDatum => {
+    props.updatedDatumHandler(newDatum)
   }
 
   return (
@@ -30,7 +31,7 @@ export default function Table(props) {
           currentPage={props.currentPage}
           currentData={props.currentData}
           clickHandler={handleClick}
-          test={test}/>
+          updatedDatumHandler={handleUpdatedDatum}/>
       </table>
     </div>
   )

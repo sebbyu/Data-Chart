@@ -29,6 +29,10 @@ export default function App() {
     setPage(currentPage);
   };
 
+  const handleUpdatedDatum = newDatum => {
+    setNewDatum(newDatum);
+  }
+
   const handleAddNewData = newDatum => {
     let pass = false;
     newDatum.id = data.length+1;
@@ -65,7 +69,6 @@ export default function App() {
       console.log(name, elem);
     }
     if (name === "EDITED") {
-      // let newDatum = JSON.parse(JSON.stringify(datum));
       let cost = userMap.get(elem);
       newDatum['expense']['cost'] = cost;
       setNewDatum(newDatum);
@@ -80,10 +83,6 @@ export default function App() {
     }
   }
 
-  const test = newDatum => {
-    setNewDatum(newDatum);
-  }
-
   return (
     <div className="component-app">
       <div className="component-app navbar">
@@ -95,7 +94,7 @@ export default function App() {
           currentPage={page}
           currentData={data}
           clickHandler={handleUpdateData}
-          test={test}/>
+          updatedDatumHandler={handleUpdatedDatum}/>
       </div>
       <div className="component-app add_form">
         <AddForm 
