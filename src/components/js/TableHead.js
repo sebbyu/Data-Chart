@@ -11,7 +11,7 @@ export default function TableHead(props) {
 
   const createExtraColumn = () => {
     if (props.currentHead !== "COMPANY EXPENSES") {
-      return <td width="50px"></td>
+      return <td width="60px"></td>
     }
   }
 

@@ -13,8 +13,12 @@ export default function Table(props) {
     clickHandler: propTypes.func,
   }
 
-  const handleClick = (name, elem) => {
-    props.clickHandler(name, elem);
+  const handleClick = (name, elem, datum) => {
+    props.clickHandler(name, elem, datum);
+  }
+
+  const test = newDatum => {
+    props.test(newDatum)
   }
 
   return (
@@ -25,7 +29,8 @@ export default function Table(props) {
         <TableBody 
           currentPage={props.currentPage}
           currentData={props.currentData}
-          clickHandler={handleClick}/>
+          clickHandler={handleClick}
+          test={test}/>
       </table>
     </div>
   )

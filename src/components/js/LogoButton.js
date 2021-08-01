@@ -10,7 +10,7 @@ export default function Logo(props) {
   }
 
   const handleClick = () => {
-    props.clickHandler(props.name, props.elem);
+    props.clickHandler(props.name, props.elem, props.datum);
   };
   
   return (

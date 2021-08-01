@@ -14,10 +14,13 @@ export default function App() {
 
   const [page, setPage] = useState('USERS');
   const [data, setData] = useState(jsonData);
+  const [newDatum, setNewDatum] = useState(null);
   const [userMap, setUserMap] = useState(() => {
     var map = new Map();
     data.forEach(x => {
-      map.set(getFullName(x), 1);
+      map.set(getFullName(x), 
+      map.has(getFullName(x)) ? map.get(getFullName(x)) + parseInt(x['expense']['cost']) : 
+      parseInt(x['expense']['cost']));
     })
     return map;
   });
@@ -47,8 +50,8 @@ export default function App() {
     }
   }
 
-  const handleUpdateData = (name, elem) => {
-    var newData;
+  const handleUpdateData = (name, elem, datum) => {
+    let newData;
     if (name === "DELETE") {
       if (page === "USERS") {
         newData = data.filter(x => getFullName(x) !== elem);
@@ -61,6 +64,24 @@ export default function App() {
     if (name === "EDIT") {
       console.log(name, elem);
     }
+    if (name === "EDITED") {
+      // let newDatum = JSON.parse(JSON.stringify(datum));
+      let cost = userMap.get(elem);
+      newDatum['expense']['cost'] = cost;
+      setNewDatum(newDatum);
+      if (page === "USERS") {
+        newData = data.filter(x => getFullName(x) !== elem);
+        newData = [...newData, newDatum];
+        userMap.set(getFullName(newDatum), cost);
+        userMap.delete(elem);
+        setUserMap(userMap);
+      } 
+      setData(newData);
+    }
+  }
+
+  const test = newDatum => {
+    setNewDatum(newDatum);
   }
 
   return (
@@ -73,7 +94,8 @@ export default function App() {
         <Table 
           currentPage={page}
           currentData={data}
-          clickHandler={handleUpdateData}/>
+          clickHandler={handleUpdateData}
+          test={test}/>
       </div>
       <div className="component-app add_form">
         <AddForm 

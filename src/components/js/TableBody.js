@@ -16,8 +16,9 @@ import {useState} from 'react';
 
 export default function TableBody(props) {
 
-  const [editingDatum, setEditingDatum] = useState(-1);
-  // const [editing, setEditing] = useState(false);
+  // const [editingDatum, setEditingDatum] = useState(null);
+  const [editingElement, setEditingElement] = useState('');
+  const [editing, setEditing] = useState(false);
 
    TableBody.propTypes = {
     currentPage: propTypes.string,
@@ -28,9 +29,24 @@ export default function TableBody(props) {
   var currentHead = tableHeadMap.get(props.currentPage);
 
   const handleClick = (name, elem) => {
-    setEditingDatum(elem);
-    console.log(editingDatum);
-    props.clickHandler(name, elem);
+    if (name === "DELETE") {
+      props.clickHandler(name, elem);
+      setEditing(false);
+      setEditingElement('');
+    }
+    if (name === 'CANCEL') {
+      setEditing(!editing);
+      setEditingElement('');
+    }
+    if (name === "EDIT") {
+      setEditing(!editing);
+      setEditingElement(elem);
+    }
+    if (name === "EDITED") {
+      props.clickHandler(name, elem);
+      setEditing(!editing);
+      setEditingElement('');
+    }
   }
 
   const createUpdatingButtons = elem => {
@@ -38,16 +54,20 @@ export default function TableBody(props) {
       return (
         <td>
           <LogoButton
-            name="EDIT"
+            name={editing && elem === editingElement ? "EDITED" : "EDIT"}
             clickHandler={handleClick}
             elem={elem}/>
           <LogoButton
-            name="DELETE"
+            name={editing && elem === editingElement ? "CANCEL" : "DELETE"}
             clickHandler={handleClick}
             elem={elem}/>
         </td>
       )
     }
+  }
+
+  const test = newDatum => {
+    props.test(newDatum);
   }
 
   const createUserTable = () => {
@@ -66,8 +86,9 @@ export default function TableBody(props) {
           <tr key={i}>
             {createUpdatingButtons(key)}
             {
-              key === editingDatum ? 
-              (<EditForm currentPage={props.currentPage}/>) :
+              key === editingElement ? 
+              (<EditForm currentPage={props.currentPage}
+                test={test}/>) :
               (<DatumElement elements={[
                 key.split(' ')[0],key.split(' ')[1],total.get(key)]}/>)
             }
@@ -84,7 +105,7 @@ export default function TableBody(props) {
           <tr key={i}>
             {createUpdatingButtons(datum['id'])}
             {
-              editingDatum === datum['id'] ? 
+              editingElement === datum['id'] ? 
               (<EditForm currentPage={props.currentPage}/>) :
               (<DatumElement elements={[
                 ...currentHead.map((head, j) => {

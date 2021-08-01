@@ -6,6 +6,7 @@ const trash = "DELETE";
 const plus = "PLUS";
 const cancel = "CANCEL";
 const insert = "INSERT";
+const edited = "EDITED";
 
 const logoMap = new Map();
 logoMap.set(users, 'fas fa-users');
@@ -16,6 +17,7 @@ logoMap.set(trash, "fas fa-trash");
 logoMap.set(plus, "fas fa-plus");
 logoMap.set(cancel, "fas fa-ban");
 logoMap.set(insert, "fas fa-plus-circle");
+logoMap.set(edited, "fas fa-edit");
 
 const tableHeadMap = new Map();  
 tableHeadMap.set(users, ['First Name', 'Last Name', 'Total Expenses']);
