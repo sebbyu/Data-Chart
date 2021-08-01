@@ -58,7 +58,9 @@ export default function App() {
       }
       setData(newData);
     }
-    console.log(name, elem);
+    if (name === "EDIT") {
+      console.log(name, elem);
+    }
   }
 
   return (

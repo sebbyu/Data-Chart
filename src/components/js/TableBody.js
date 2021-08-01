@@ -8,9 +8,16 @@ import {
 } from './../../helpers/helperFunc';
 // components
 import LogoButton from './LogoButton';
+import EditForm from './EditForm';
+import DatumElement from './DatumElement';
+// hooks
+import {useState} from 'react';
 
 
 export default function TableBody(props) {
+
+  const [editingDatum, setEditingDatum] = useState(-1);
+  // const [editing, setEditing] = useState(false);
 
    TableBody.propTypes = {
     currentPage: propTypes.string,
@@ -18,10 +25,11 @@ export default function TableBody(props) {
     clickHandler: propTypes.func,
   }
 
-
   var currentHead = tableHeadMap.get(props.currentPage);
 
   const handleClick = (name, elem) => {
+    setEditingDatum(elem);
+    console.log(editingDatum);
     props.clickHandler(name, elem);
   }
 
@@ -57,9 +65,12 @@ export default function TableBody(props) {
         return (
           <tr key={i}>
             {createUpdatingButtons(key)}
-            <td>{key.split(' ')[0]}</td>
-            <td>{key.split(' ')[1]}</td>
-            <td>{total.get(key)}</td>
+            {
+              key === editingDatum ? 
+              (<EditForm currentPage={props.currentPage}/>) :
+              (<DatumElement elements={[
+                key.split(' ')[0],key.split(' ')[1],total.get(key)]}/>)
+            }
           </tr>
         )
       })
@@ -72,18 +83,17 @@ export default function TableBody(props) {
         return (
           <tr key={i}>
             {createUpdatingButtons(datum['id'])}
-            {currentHead.map((head, j) => {
-              head = head.toLowerCase();
-              var elem = datum[head] === undefined ?
-              resolveUndefinedElem(
-                props.currentPage, props.currentData, datum, head)
-              : datum[head];
-              return (
-                <td key={j}>
-                  {elem}
-                </td>
-              )
-            })}
+            {
+              editingDatum === datum['id'] ? 
+              (<EditForm currentPage={props.currentPage}/>) :
+              (<DatumElement elements={[
+                ...currentHead.map((head, j) => {
+                  return resolveUndefinedElem(
+                    props.currentPage, props.currentData, 
+                    datum, head.toLowerCase())
+                })
+              ]}/>)
+            }
           </tr>
         )
       })
@@ -103,8 +113,9 @@ export default function TableBody(props) {
       [...map.entries()].map((entry, i) => {
         return (
           <tr key={i}>
-            <td>{entry[0]}</td>
-            <td>{entry[1]}</td>
+            <DatumElement elements={[
+              entry[0], entry[1]
+            ]}/>
           </tr>
         )
       })
