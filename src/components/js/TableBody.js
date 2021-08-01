@@ -16,7 +16,7 @@ import {useState} from 'react';
 
 export default function TableBody(props) {
 
-  // const [editingDatum, setEditingDatum] = useState(null);
+  const [editingDatum, setEditingDatum] = useState(null);
   const [editingElement, setEditingElement] = useState('');
   const [editing, setEditing] = useState(false);
 
@@ -44,9 +44,11 @@ export default function TableBody(props) {
       setEditingElement(elem);
     }
     if (name === "EDITED") {
-      props.clickHandler(name, elem);
-      setEditing(!editing);
-      setEditingElement('');
+      if (editingDatum['first name'] !== '' && editingDatum['last name'] !== '') {
+        props.clickHandler(name, elem);
+        setEditing(!editing);
+        setEditingElement('');
+      }
     }
   }
 
@@ -68,6 +70,7 @@ export default function TableBody(props) {
   }
 
   const handleUpdatedDatum = newDatum => {
+    setEditingDatum(newDatum);
     props.updatedDatumHandler(newDatum);
   }
 
@@ -88,8 +91,9 @@ export default function TableBody(props) {
             {createUpdatingButtons(key)}
             {
               key === editingElement ? 
-              (<EditForm currentPage={props.currentPage}
-                updatedDatumHandler={handleUpdatedDatum}/>) :
+              (<><EditForm currentPage={props.currentPage}
+                updatedDatumHandler={handleUpdatedDatum}/>
+               <td>{total.get(key)}</td></>) :
               (<DatumElement elements={[
                 key.split(' ')[0],key.split(' ')[1],total.get(key)]}/>)
             }
