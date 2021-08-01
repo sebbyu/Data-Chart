@@ -4,7 +4,7 @@ import Navbar from './../../components/js/Navbar';
 import Table from './../../components/js/Table';
 import AddForm from './../../components/js/AddForm';
 // hooks
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 // assets
 import jsonData from '../../assets/dummy_data.json';
 import {getFullName} from './../../helpers/helperFunc';
@@ -25,6 +25,10 @@ export default function App() {
     return map;
   });
 
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   const switchTab = currentPage => {
     setPage(currentPage);
   };
@@ -41,12 +45,14 @@ export default function App() {
     let newData = [...data, newDatum];
     if (page === "USERS") {
       if (!userMap.has(getFullName(newDatum))) {
-        userMap.set(getFullName(newDatum), 1);
+        userMap.set(getFullName(newDatum), 0);
         setUserMap(userMap);
         pass = true;
       }
     }
     if (page === "EXPENSE") {
+      userMap.set(getFullName(newDatum),
+      userMap.get(getFullName(newDatum)) + parseInt(newDatum['expense']['cost']));
       pass = true;
     }
     if (pass) {
@@ -69,12 +75,17 @@ export default function App() {
       console.log(name, elem);
     }
     if (name === "EDITED") {
+      let allOldData = data.filter(x => getFullName(x) === elem);
+      allOldData.forEach((x,i) => {
+        x['first name'] = newDatum['first name'];
+        x['last name'] = newDatum['last name'];
+      })
       let cost = userMap.get(elem);
       newDatum['expense']['cost'] = cost;
       setNewDatum(newDatum);
       if (page === "USERS") {
+        console.log(allOldData);
         newData = data.filter(x => getFullName(x) !== elem);
-        newData = [...newData, newDatum];
         userMap.set(getFullName(newDatum), cost);
         userMap.delete(elem);
         setUserMap(userMap);

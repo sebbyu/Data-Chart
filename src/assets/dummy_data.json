@@ -5,7 +5,7 @@
     "last name": "Anderson",
     "expense": {
       "category": "Food",
-      "cost": 28,
+      "cost": 1,
       "date": "05-22-2021"
     },
     "budget": 400
@@ -16,7 +16,7 @@
     "last name": "Brown",
     "expense": {
       "category": "Travel",
-      "cost": 340,
+      "cost": 1,
       "date": "06-19-2021"
     },
     "budget": 1800
@@ -27,7 +27,7 @@
     "last name": "Cook",
     "expense": {
       "category": "Health",
-      "cost": 1000,
+      "cost": 1,
       "date": "02-29-2020"
     },
     "budget": 20
@@ -38,7 +38,7 @@
     "last name": "Davis",
     "expense": {
       "category": "Supplies",
-      "cost": 200,
+      "cost": 1,
       "date": "04-20-2020"
     },
     "budget": 5000
@@ -49,7 +49,7 @@
     "last name": "Erickson",
     "expense": {
       "category": "Food",
-      "cost": 40,
+      "cost": 1,
       "date": "07-23-2021"
     },
     "budget": 300
