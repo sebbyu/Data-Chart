@@ -18,16 +18,26 @@ export default function App() {
   const [userMap, setUserMap] = useState(() => {
     var map = new Map();
     data.forEach(x => {
-      map.set(getFullName(x), 
-      map.has(getFullName(x)) ? map.get(getFullName(x)) + parseInt(x['expense']['cost']) : 
-      parseInt(x['expense']['cost']));
+      let newVal;
+      if (map.has(getFullName(x))) {
+        newVal = map.get(getFullName(x));
+        newVal[0] += parseInt(x['expense']['cost']);
+        newVal[1] += 1;
+      } else {
+        newVal = [];
+        newVal.push(parseInt(x['expense']['cost']));
+        newVal.push(1);
+      }
+      map.set(getFullName(x), newVal);
     })
     return map;
   });
 
   useEffect(() => {
-    console.log(data);
-  }, [data]);
+    // console.log(data);
+    // console.log(newDatum);
+    console.log(userMap);
+  }, [data, newDatum, userMap]);
 
   const switchTab = currentPage => {
     setPage(currentPage);
@@ -45,14 +55,16 @@ export default function App() {
     let newData = [...data, newDatum];
     if (page === "USERS") {
       if (!userMap.has(getFullName(newDatum))) {
-        userMap.set(getFullName(newDatum), 0);
+        userMap.set(getFullName(newDatum), [0, 1]);
         setUserMap(userMap);
         pass = true;
       }
     }
     if (page === "EXPENSE") {
-      userMap.set(getFullName(newDatum),
-      userMap.get(getFullName(newDatum)) + parseInt(newDatum['expense']['cost']));
+      let newVal = userMap.get(getFullName(newDatum));
+      newVal[0] += parseInt(newDatum['expense']['cost']);
+      newVal[1] += 1;
+      userMap.set(getFullName(newDatum), newVal);
       pass = true;
     }
     if (pass) {
@@ -75,21 +87,31 @@ export default function App() {
       console.log(name, elem);
     }
     if (name === "EDITED") {
-      let allOldData = data.filter(x => getFullName(x) === elem);
-      allOldData.forEach((x,i) => {
-        x['first name'] = newDatum['first name'];
-        x['last name'] = newDatum['last name'];
-      })
-      let cost = userMap.get(elem);
-      newDatum['expense']['cost'] = cost;
-      setNewDatum(newDatum);
       if (page === "USERS") {
-        console.log(allOldData);
+        let allOldData = data.filter(x => getFullName(x) === elem);
+        allOldData.forEach((x,i) => {
+          x['first name'] = newDatum['first name'];
+          x['last name'] = newDatum['last name'];
+        })
+        let cost = userMap.get(elem)[0];
+        console.log(cost);
+        newDatum['expense']['cost'] = cost;
+        setNewDatum(newDatum);
         newData = data.filter(x => getFullName(x) !== elem);
-        userMap.set(getFullName(newDatum), cost);
+        let newVal = userMap.get(elem);
+        newVal[0] = cost;
+        userMap.set(getFullName(newDatum), newVal);
         userMap.delete(elem);
         setUserMap(userMap);
-      } 
+      }
+      // if (page === "EXPENSE") {
+      //   let oldDatum = data.find(x => x.id === elem);
+      //   newDatum.id = elem;
+      //   newData = data.filter(x => x.id !== elem);
+      //   if (userMap.has(getFullName(oldDatum)))
+      //   userMap.set(getFullName(oldDatum),
+      //   userMap.)
+      // }
       setData(newData);
     }
   }

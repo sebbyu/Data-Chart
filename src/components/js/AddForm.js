@@ -17,33 +17,33 @@ export default function AddForm(props) {
   }
 
   const [adding, setAdding] = useState(false);
-  const [newData, setNewData] = useState(newUserForm);
+  const [newDatum, setNewDatum] = useState(newUserForm);
 
   const handleLogoClick = name => {
     if (name !== "INSERT") {
       setAdding(!adding);
-      setNewData(newUserForm);
+      setNewDatum(newUserForm);
     } 
     let pass = false;
     if (name === "INSERT") {
       if (props.currentPage === "USERS") {
-        if (newData['first name'] !== '' && newData['last name'] !== '') {
+        if (newDatum['first name'] !== '' && newDatum['last name'] !== '') {
           pass = true;
         }
       }
       if (props.currentPage === "EXPENSE") {
-        if (newData['expense']['cost'] !== '' && 
-        newData['expense']['date'] !== '' &&
-        newData['expense']['category'] !== '' &&
-        newData['first name'] !== '' && newData['last name'] !== '') {
+        if (newDatum['expense']['cost'] !== '' && 
+        newDatum['expense']['date'] !== '' &&
+        newDatum['expense']['category'] !== '' &&
+        newDatum['first name'] !== '' && newDatum['last name'] !== '') {
           pass = true;
         }
       }
     }
     if (pass) {
-      props.addNewData(newData);
+      props.addNewData(newDatum);
       setAdding(!adding);
-      setNewData(newUserForm);
+      setNewDatum(newUserForm);
     }
     
   }
@@ -51,22 +51,22 @@ export default function AddForm(props) {
   const handleInputChange = (event) => {
     const {name, value} = event.target;
     if (props.currentPage === "USERS") {
-      setNewData({
-        ...newData,
+      setNewDatum({
+        ...newDatum,
         [name]: value
       })
     }
     if (props.currentPage === "EXPENSE") {
       if (name !== 'full name') {
-        var temp = JSON.parse(JSON.stringify(newData));
+        var temp = JSON.parse(JSON.stringify(newDatum));
         temp['expense'][name] = value;
-        setNewData({
+        setNewDatum({
           ...temp
         })
       }
       if (name === "full name") {
-        setNewData({
-          ...newData,
+        setNewDatum({
+          ...newDatum,
           'first name': value.split(" ")[0],
           'last name': value.split(" ")[1]
         })
@@ -79,11 +79,11 @@ export default function AddForm(props) {
       <form>
         <input
           type="text" name="first name"
-          value={newData['first name']}
+          value={newDatum['first name']}
           onChange={handleInputChange}/>
         <input
           type="text" name="last name"
-          value={newData['last name']}
+          value={newDatum['last name']}
           onChange={handleInputChange}/>
         <LogoButton name="INSERT" clickHandler={handleLogoClick}/>
       </form>
@@ -114,11 +114,11 @@ export default function AddForm(props) {
             )
           })}
         </select>
-        <input type="text" name="cost"
-          value={newData['expense']['cost']}
+        <input type="number" name="cost"
+          value={newDatum['expense']['cost']}
           onChange={handleInputChange}/>
-        <input type="text" name="date"
-          value={newData['expense']['date']}
+        <input type="date" name="date"
+          value={newDatum['expense']['date']}
           onChange={handleInputChange}/>
         <LogoButton name="INSERT" clickHandler={handleLogoClick}/>
       </form>

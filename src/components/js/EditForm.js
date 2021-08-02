@@ -3,7 +3,8 @@ import propTypes from 'prop-types';
 // hooks
 import {useState, useEffect} from 'react';
 // helpers
-import {newUserForm} from './../../helpers/pageMap';
+import {newUserForm, categories} from './../../helpers/pageMap';
+import {getFullName} from './../../helpers/helperFunc';
 
 export default function EditForm(props) {
 
@@ -12,6 +13,7 @@ export default function EditForm(props) {
   EditForm.propTypes = {
     currentPage: propTypes.string,
     updatedDatumHandler: propTypes.func,
+    currentData: propTypes.array,
   }
 
   useEffect(() => {
@@ -23,11 +25,28 @@ export default function EditForm(props) {
 
 
   const handleChange = (event) => {
+
     const {name, value} = event.target;
-    setNewDatum({
-      ...newDatum,
-      [name]: value
-    })
+    if (name === "cost" || name === "date") {
+      var temp = JSON.parse(JSON.stringify(newDatum));
+      temp['expense'][name] = value;
+      setNewDatum({
+        ...temp
+      })
+    }
+    if (name === "full name") {
+      setNewDatum({
+        ...newDatum,
+        'first name': value.split(" ")[0],
+        'last name': value.split(" ")[1]
+      })
+    }
+    else {
+      setNewDatum({
+        ...newDatum,
+        [name]: value,
+      })
+    }
   }
 
   if (props.currentPage === "USERS") {
@@ -44,26 +63,39 @@ export default function EditForm(props) {
             onChange={handleChange}/>
         </td>
       </>
-      
     )
   }
   return (
     <>
       <td>
-        <select>
+        <select name="full name" onChange={handleChange}>
           <option>---------</option>
+          {props.currentData.map((datum, i) => {
+            return (
+              <option key={i}>{getFullName(datum)}</option>
+            )
+          })}
         </select>
       </td>
       <td>
-        <select>
+        <select name="category" onChange={handleChange}>
           <option>---------</option>
+          {categories.map((category, i) => {
+            return (
+              <option key={i}>{category}</option>
+            )
+          })}
         </select>
       </td>
       <td>
-        <input type="text" />
+        <input type="number" name="cost"
+          value={newDatum['expense']['cost']}
+          onChange={handleChange}/>
       </td>
       <td>
-        <input type="text" />
+        <input type="date" name="date"
+          value={newDatum['expense']['date']}
+          onChange={handleChange}/>
       </td>
     </>
   )

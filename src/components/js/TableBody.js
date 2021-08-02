@@ -111,7 +111,9 @@ export default function TableBody(props) {
             {createUpdatingButtons(datum['id'])}
             {
               editingElement === datum['id'] ? 
-              (<EditForm currentPage={props.currentPage}/>) :
+              (<EditForm currentPage={props.currentPage}
+                updatedDatumHandler={handleUpdatedDatum}
+                currentData={props.currentData}/>) :
               (<DatumElement elements={[
                 ...currentHead.map((head, j) => {
                   return resolveUndefinedElem(
