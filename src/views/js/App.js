@@ -35,7 +35,7 @@ export default function App() {
 
   useEffect(() => {
     // console.log(data);
-    // console.log(newDatum);
+    console.log(newDatum);
     console.log(userMap);
   }, [data, newDatum, userMap]);
 
@@ -104,14 +104,27 @@ export default function App() {
         userMap.delete(elem);
         setUserMap(userMap);
       }
-      // if (page === "EXPENSE") {
-      //   let oldDatum = data.find(x => x.id === elem);
-      //   newDatum.id = elem;
-      //   newData = data.filter(x => x.id !== elem);
-      //   if (userMap.has(getFullName(oldDatum)))
-      //   userMap.set(getFullName(oldDatum),
-      //   userMap.)
-      // }
+      if (page === "EXPENSE") {
+        let oldDatum = data.find(x => x.id === elem);
+        newDatum.id = elem;
+        newData = data.filter(x => x.id !== elem);
+        let cost = oldDatum['expense']['cost'];
+        let newVal = userMap.get(getFullName(oldDatum));
+        newVal[1] -= 1;
+        if (newVal[1] === 0) {
+          userMap.delete(getFullName(oldDatum));
+          if (userMap.has(getFullName(newDatum))) {
+            let tempVal = userMap.get(getFullName(newDatum));
+            tempVal[0] += cost;
+            tempVal[1] += 1;
+            userMap.set(getFullName(newDatum), tempVal);
+          }
+          else {
+            userMap.set(getFullName(oldDatum), newVal[0]-1)
+            userMap.set(getFullName(newDatum), newVal[0])
+          }
+        }
+      }
       setData(newData);
     }
   }
