@@ -1,7 +1,7 @@
 import './../scss/TableBody.scss';
 import propTypes from 'prop-types';
 // helpers
-import {tableHeadMap} from './../../helpers/pageMap';
+import {tableHeadMap, categories} from './../../helpers/pageMap';
 import {
   resolveUndefinedElem, 
   getFullName
@@ -25,6 +25,7 @@ export default function TableBody(props) {
     currentData: propTypes.array,
     clickHandler: propTypes.func,
     updatedDatumHandler: propTypes.func,
+    uniqueUsers: propTypes.array,
   }
 
   var currentHead = tableHeadMap.get(props.currentPage);
@@ -113,7 +114,7 @@ export default function TableBody(props) {
               editingElement === datum['id'] ? 
               (<EditForm currentPage={props.currentPage}
                 updatedDatumHandler={handleUpdatedDatum}
-                currentData={props.currentData}/>) :
+                uniqueUsers={props.uniqueUsers}/>) :
               (<DatumElement elements={[
                 ...currentHead.map((head, j) => {
                   return resolveUndefinedElem(
@@ -130,12 +131,12 @@ export default function TableBody(props) {
 
   const createCompanyExpensesTable = () => {
     var map = new Map();
+    categories.forEach((category, i) => {
+      map.set(category, 0);
+    })
     props.currentData.forEach((datum, i) => {
-      map.set(datum['expense']['category'], 
-      map.has(datum['expense']['category']) ? 
-      map.get(datum['expense']['category']) + parseInt(datum['expense']['cost']) :
-      parseInt(datum['expense']['cost']))
-      
+      map.set(datum.expense.category,
+      map.get(datum.expense.category) + parseInt(datum.expense.cost))
     })
     return (
       [...map.entries()].map((entry, i) => {

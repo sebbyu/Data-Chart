@@ -12,6 +12,7 @@ export default function Table(props) {
     currentData: propTypes.array,
     clickHandler: propTypes.func,
     updatedDatumHandler: propTypes.func,
+    uniqueUsers: propTypes.array,
   }
 
   const handleClick = (name, elem, datum) => {
@@ -30,6 +31,7 @@ export default function Table(props) {
         <TableBody 
           currentPage={props.currentPage}
           currentData={props.currentData}
+          uniqueUsers={props.uniqueUsers}
           clickHandler={handleClick}
           updatedDatumHandler={handleUpdatedDatum}/>
       </table>

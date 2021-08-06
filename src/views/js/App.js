@@ -34,9 +34,9 @@ export default function App() {
   });
 
   useEffect(() => {
-    // console.log(data);
-    console.log(newDatum);
-    console.log(userMap);
+    console.log(data);
+    // console.log(newDatum);
+    // console.log(userMap);
   }, [data, newDatum, userMap]);
 
   const switchTab = currentPage => {
@@ -107,23 +107,31 @@ export default function App() {
       if (page === "EXPENSE") {
         let oldDatum = data.find(x => x.id === elem);
         newDatum.id = elem;
-        newData = data.filter(x => x.id !== elem);
-        let cost = oldDatum['expense']['cost'];
+        newDatum.budget = oldDatum.budget;
+        setNewDatum(newDatum);
+        newData = data.filter(x => x !== oldDatum);
+        newData.push(newDatum);
+        let oldCost = oldDatum.expense.cost;
+        let newCost = newDatum.expense.cost;
         let newVal = userMap.get(getFullName(oldDatum));
         newVal[1] -= 1;
         if (newVal[1] === 0) {
           userMap.delete(getFullName(oldDatum));
-          if (userMap.has(getFullName(newDatum))) {
-            let tempVal = userMap.get(getFullName(newDatum));
-            tempVal[0] += cost;
-            tempVal[1] += 1;
-            userMap.set(getFullName(newDatum), tempVal);
-          }
-          else {
-            userMap.set(getFullName(oldDatum), newVal[0]-1)
-            userMap.set(getFullName(newDatum), newVal[0])
-          }
+        } else {
+          userMap.set(getFullName(oldDatum),
+          [newVal[0]-oldCost, newVal[1]-1])
         }
+        if (userMap.has(getFullName(newDatum))) {
+          let tempVal = userMap.get(getFullName(newDatum));
+          tempVal[0] += parseInt(newCost);
+          tempVal[1] += 1;
+          userMap.set(getFullName(newDatum), tempVal);
+        }
+        else {
+          userMap.set(getFullName(newDatum),
+          [newCost, 1]);
+        }
+        setUserMap(userMap);
       }
       setData(newData);
     }
@@ -139,6 +147,7 @@ export default function App() {
         <Table 
           currentPage={page}
           currentData={data}
+          uniqueUsers={[...userMap.keys()]}
           clickHandler={handleUpdateData}
           updatedDatumHandler={handleUpdatedDatum}/>
       </div>

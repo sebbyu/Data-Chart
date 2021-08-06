@@ -4,7 +4,6 @@ import propTypes from 'prop-types';
 import {useState, useEffect} from 'react';
 // helpers
 import {newUserForm, categories} from './../../helpers/pageMap';
-import {getFullName} from './../../helpers/helperFunc';
 
 export default function EditForm(props) {
 
@@ -13,7 +12,7 @@ export default function EditForm(props) {
   EditForm.propTypes = {
     currentPage: propTypes.string,
     updatedDatumHandler: propTypes.func,
-    currentData: propTypes.array,
+    uniqueUsers: propTypes.array,
   }
 
   useEffect(() => {
@@ -24,10 +23,12 @@ export default function EditForm(props) {
   }, [props, newDatum]);
 
 
+
   const handleChange = (event) => {
 
     const {name, value} = event.target;
-    if (name === "cost" || name === "date") {
+    console.log(name, value);
+    if (name !== 'full name') {
       var temp = JSON.parse(JSON.stringify(newDatum));
       temp['expense'][name] = value;
       setNewDatum({
@@ -41,10 +42,10 @@ export default function EditForm(props) {
         'last name': value.split(" ")[1]
       })
     }
-    else {
+    if (props.currentPage === "USERS") {
       setNewDatum({
         ...newDatum,
-        [name]: value,
+        [name]: value
       })
     }
   }
@@ -70,9 +71,9 @@ export default function EditForm(props) {
       <td>
         <select name="full name" onChange={handleChange}>
           <option>---------</option>
-          {props.currentData.map((datum, i) => {
+          {props.uniqueUsers.map((username, i) => {
             return (
-              <option key={i}>{getFullName(datum)}</option>
+              <option key={i}>{username}</option>
             )
           })}
         </select>
